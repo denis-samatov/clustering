@@ -32,7 +32,7 @@ plt.show()
 
 ## Результат:
 
-![Пример изображения](example.png)
+![Пример изображения](https://github.com/denis-samatov/clustering/blob/main/k-means.png)
 
 # Иерархическая кластеризация
 
@@ -69,7 +69,7 @@ plt.show()
 
 ## Результат:
 
-![Пример изображения](example.png)
+![Пример изображения](https://github.com/denis-samatov/clustering/blob/main/hierarchical.png)
 
 # Кластеризация методом DBSCAN
 
@@ -112,4 +112,4 @@ plt.show()
 
 ## Результат:
 
-![Пример изображения](example.png)
+![Пример изображения](https://github.com/denis-samatov/clustering/blob/main/dbscan.png)
