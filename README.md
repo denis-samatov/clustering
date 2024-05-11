@@ -1,104 +1,115 @@
-# K-Means Clustering
+# Кластеризация методом K-Means
 
-## What is K-Means Clustering?
-K-Means is one of the most popular methods of clustering. It divides a dataset into a predefined number of clusters (K) by minimizing the mean squared distance between points and their centroids.
+## Что это такое?
+K-Means - один из самых популярных методов кластеризации. Он разбивает набор данных на заранее заданное количество кластеров (K), минимизируя среднеквадратичное расстояние между точками и их центроидами.
 
-## How does it work?
-The algorithm begins with a random selection of centroids for the clusters. Then, data points are assigned to the nearest centroid, and the centroids are recalculated as the mean position of points in each cluster. This process repeats until convergence.
+## Принцип работы
+Алгоритм начинается с произвольного выбора центроидов для кластеров. Затем каждая точка данных присваивается ближайшему центроиду, и центроиды пересчитываются как среднее положение точек в каждом кластере. Этот процесс повторяется до сходимости.
 
-## Features:
-1. Sensitive to the initial selection of centroids, which can affect the final clustering.
-2. Suitable for data with clear clusters but may produce poor results for heterogeneous or overlapping clusters.
+## Особенности:
+1. Чувствителен к выбору начальных центроидов, что может повлиять на итоговую кластеризацию.
+2. Подходит для данных с четко выраженными кластерами, но может давать плохие результаты для неоднородных или перекрывающихся кластеров.
 
-## Example:
+## Пример:
 ```python
 from sklearn.cluster import KMeans
 from sklearn.datasets import make_blobs
 import matplotlib.pyplot as plt
 
-# Creating artificial data
+# Создание искусственных данных
 X, _ = make_blobs(n_samples=300, centers=4, cluster_std=0.60, random_state=0)
 
-# Applying K-Means
+# Применение метода K-Means
 kmeans = KMeans(n_clusters=4)
 kmeans.fit(X)
 
-# Visualizing clusters
+# Визуализация кластеров
 plt.scatter(X[:, 0], X[:, 1], c=kmeans.labels_, cmap='viridis')
 centers = kmeans.cluster_centers_
 plt.scatter(centers[:, 0], centers[:, 1], c='black', s=200, alpha=0.75)
 plt.show()
 ```
 
-# Hierarchical Clustering
+## Результат:
 
-## What is Hierarchical Clustering?
-This method builds a hierarchy of clusters, represented as a tree (dendrogram), where each node corresponds to a cluster.
+![Пример изображения](example.png)
 
-## How does it work?
-It starts with each data point as a separate cluster, then at each step, the closest clusters are merged until all points belong to one cluster.
+# Иерархическая кластеризация
 
-## Features:
-1. Allows the creation of dendrograms, visually displaying the data structure and enabling the selection of the optimal number of clusters.
-2. Can be agglomerative (bottom-up) or divisive (top-down) depending on the approach.
+## Что это такое?
+Этот метод строит иерархию кластеров, представляющую собой дерево (дендрограмму), где каждый узел соответствует кластеру.
 
-## Example:
+## Принцип работы
+Начинается с того, что каждая точка данных представляет собой отдельный кластер, затем на каждом шаге ближайшие кластеры объединяются до тех пор, пока все точки не будут представлены в одном кластере.
+
+## Особенности:
+1. Позволяет создавать дендрограммы, которые визуально отображают структуру данных и позволяют выбирать оптимальное количество кластеров.
+2. Может быть агломеративным (объединяющим) или дивизивным (разделяющим) в зависимости от подхода.
+
+## Пример:
 ```python
 from scipy.cluster.hierarchy import dendrogram, linkage
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Generating random data
+# Генерация случайных данных
 np.random.seed(0)
 X = np.random.rand(10, 2)
 
-# Hierarchical clustering
+# Иерархическая кластеризация
 linked = linkage(X, 'single')
 
-# Plotting dendrogram
+# Построение дендрограммы
 dendrogram(linked, orientation='top', distance_sort='descending', show_leaf_counts=True)
-plt.title('Hierarchical Clustering Dendrogram')
-plt.xlabel('Sample Index')
-plt.ylabel('Distance')
+plt.title('Иерархическая кластеризация')
+plt.xlabel('Индекс образца')
+plt.ylabel('Расстояние')
 plt.show()
 ```
 
-# DBSCAN Clustering
+## Результат:
 
-## What is DBSCAN?
-DBSCAN is based on data density. It identifies clusters as areas of high density separated by areas of low density.
+![Пример изображения](example.png)
 
-## How does it work?
-The algorithm starts from a random point and looks for neighbors within a specified radius. If a point has enough neighbors, it becomes part of a cluster. This process spreads from point to point until all points are visited.
+# Кластеризация методом DBSCAN
 
-## Features:
-1. Can handle clusters of arbitrary shapes and detect outliers (noise).
-2. Does not require a predefined number of clusters but has parameters such as epsilon radius (eps) and minimum number of points in a cluster (min_samples).
+## Что это такое?
+DBSCAN основан на плотности данных. Он идентифицирует кластеры как области высокой плотности, разделенные областями низкой плотности.
 
-## Example:
+## Принцип работы
+Алгоритм начинает с случайной точки и ищет соседей внутри заданного радиуса. Если точка содержит достаточное количество соседей, она становится частью кластера. Процесс распространяется от точки к точке до тех пор, пока все точки не будут посещены.
+
+## Особенности:
+1. Может обрабатывать кластеры произвольной формы и обнаруживать выбросы (шум).
+2. Не требует заранее указанного числа кластеров, но имеет параметры, такие как радиус эпсилон (eps) и минимальное количество точек в кластере (min_samples).
+
+## Пример:
 ```python
 from sklearn.cluster import DBSCAN
 from sklearn.datasets import make_moons
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import StandardScaler
 
-# Creating artificial data
+# Создание искусственных данных
 X, _ = make_moons(n_samples=200, shuffle=True, noise=0.1)
 
-# Applying K-Means
+# Применение метода K-Means
 kmeans = KMeans(n_clusters=2)
 kmeans.fit(X)
 clusters = kmeans.predict(X)
 
-# Visualizing clusters
+# Визуализация кластеров
 plt.scatter(X[:, 0], X[:, 1], c=clusters, cmap='viridis')
 plt.show()
 
-# Applying DBSCAN
+# Применение метода DBSCAN
 dbscan = DBSCAN(eps=0.3, min_samples=10)
 clusters = dbscan.fit_predict(X)
 
-# Visualizing clusters
+# Визуализация кластеров
 plt.scatter(X[:, 0], X[:, 1], c=clusters, cmap='viridis')
 plt.show()
 ```
+
+## Результат:
+
+![Пример изображения](example.png)
